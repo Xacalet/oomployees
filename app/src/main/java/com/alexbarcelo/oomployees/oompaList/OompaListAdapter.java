@@ -89,6 +89,10 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         mOnRetryButtonClickListener = listener;
     }
 
+    public boolean isRetryButtonActive() {
+        return mFooterItemType.ViewType == FooterItemType.RETRY_BUTTON.ViewType;
+    }
+
     private enum FooterItemType {
         NONE, LOADING_INDICATOR, RETRY_BUTTON;
 

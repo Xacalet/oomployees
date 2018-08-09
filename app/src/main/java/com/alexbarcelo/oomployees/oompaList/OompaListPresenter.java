@@ -30,6 +30,7 @@ public class OompaListPresenter implements OompaListContract.Presenter {
 
     private int mCurrentPage = 0;
     private int mPageCount = Integer.MAX_VALUE;
+    private boolean mIsLoading = false;
     private List<Oompa> mItems = new ArrayList();
 
     @Inject
@@ -44,11 +45,12 @@ public class OompaListPresenter implements OompaListContract.Presenter {
     @Override
     public void loadMoreItems() {
 
-        if (mCurrentPage >= mPageCount) {
+        if (mCurrentPage >= mPageCount || mIsLoading) {
             return;
         }
 
         mView.setLoadingIndicator(true);
+        mIsLoading = true;
 
         DisposableSingleObserver request = new DisposableSingleObserver<PaginatedOompaList>(){
 
@@ -59,6 +61,7 @@ public class OompaListPresenter implements OompaListContract.Presenter {
                 mItems.addAll(paginatedOompaList.results());
                 mView.loadItems(mItems);
                 mView.setLoadingIndicator(false);
+                mIsLoading = false;
             }
 
             @Override
@@ -66,6 +69,7 @@ public class OompaListPresenter implements OompaListContract.Presenter {
                 mView.setLoadingIndicator(false);
                 mView.showErrorMessage(e.getMessage());
                 mView.setRetryButton(true);
+                mIsLoading = false;
             }
         };
 

@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import com.alexbarcelo.commons.di.ActivityScoped;
 import com.alexbarcelo.oomployees.R;
 import com.alexbarcelo.oomployees.data.model.Oompa;
+import com.alexbarcelo.oomployees.dialogs.ErrorDialogFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -50,18 +52,27 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mOompaListView.setLayoutManager(linearLayoutManager);
 
+        /*
+         * Comprobamos si el último elemento de la lista es visible, y en tal caso, pedimos más
+         * ítems al presenter.
+         */
         mOompaListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastItemIndex = mListAdapter.getItemCount() - 1;
-                if (layoutManager.findLastVisibleItemPosition() == lastItemIndex) {
-                    mPresenter.loadMoreItems();
+                if (layoutManager.findLastVisibleItemPosition() == mListAdapter.getItemCount() - 1 &&
+                        !mListAdapter.isRetryButtonActive()) {
+                    /*
+                     * Indicamos al presenter que cargue más ítems a través de la cola de mensajes,
+                     * ya que en algunos casos, durante la ejecución del callback de scroll,
+                     * la recycler view puede no aceptar cambios en los datos.
+                     */
+                    recyclerView.post(() -> mPresenter.loadMoreItems());
                 }
             }
         });
-
+        mOompaListView.setHasFixedSize(false);
         mOompaListView.setAdapter(mListAdapter);
 
         return v;
@@ -90,7 +101,8 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
 
     @Override
     public void showErrorMessage(String message) {
-
+        ErrorDialogFragment dialogFragment = ErrorDialogFragment.newInstance(message);
+        dialogFragment.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
     }
 
     @Override
