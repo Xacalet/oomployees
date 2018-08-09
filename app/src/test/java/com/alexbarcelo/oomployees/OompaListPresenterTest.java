@@ -43,16 +43,18 @@ public class OompaListPresenterTest {
     }
 
     /**
-     * La llamada al método loadMoreItems del presenter debería, en este orden: Mostrar spinner
-     * de carga de items; Cargar items en la lista; Esconder spinner
+     * La llamada al método loadMoreItems del presenter debería, en caso de éxito:
+     *  1. Mostrar spinner de carga de items;
+     *  2. Cargar items en la lista;
+     *  3. Esconder spinner
      */
     @Test
-    public void loadAllOompasFromRepositoryAndLoadIntoView() {
-        int page = 0;
+    public void loadOompasWithSuccessAndLoadIntoView() {
+        int currentPage = 1;
 
         // Mockeamos la respuesta a la llamada getOompas del repositorio
         PaginatedOompaList paginatedList = getMockedOompaList();
-        when(mOompaRepository.getOompas(page)).thenReturn(Single.just(paginatedList));
+        when(mOompaRepository.getOompas(currentPage)).thenReturn(Single.just(paginatedList));
 
         // Llamamos al método de carga de ítems del presenter
         mOompaListPresenter.loadMoreItems();
@@ -62,6 +64,33 @@ public class OompaListPresenterTest {
         inOrder.verify(mOompaListView).setLoadingIndicator(true);
         inOrder.verify(mOompaListView).loadItems(paginatedList.results());
         inOrder.verify(mOompaListView).setLoadingIndicator(false);
+    }
+
+    /**
+     * La llamada al método loadMoreItems del presenter debería, en caso de error:
+     *  1. Mostrar spinner de carga de items;
+     *  2. Esconder spinner;
+     *  3. Mostrar mensaje de error;
+     *  4. Mostrar botón de reintento
+     */
+    @Test
+    public void loadWithErrorDisplaysErrorMessage() {
+        int currentPage = 1;
+        String error_message = "ERROR_MESSAGE";
+
+        // Mockeamos un error a la llamada getOompas del repositorio
+        PaginatedOompaList paginatedList = getMockedOompaList();
+        when(mOompaRepository.getOompas(currentPage)).thenReturn(Single.<PaginatedOompaList>error(new Exception(error_message)));
+
+        // Llamamos al método de carga de ítems del presenter
+        mOompaListPresenter.loadMoreItems();
+
+        // Comprobamos las llamadas a los métodos de la vista
+        InOrder inOrder = Mockito.inOrder(mOompaListView);
+        inOrder.verify(mOompaListView).setLoadingIndicator(true);
+        inOrder.verify(mOompaListView).setLoadingIndicator(false);
+        inOrder.verify(mOompaListView).showErrorMessage(error_message);
+        inOrder.verify(mOompaListView).setRetryButton(true);
     }
 
     private PaginatedOompaList getMockedOompaList() {

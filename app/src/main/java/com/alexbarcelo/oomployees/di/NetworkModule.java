@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 abstract class NetworkModule {
 
     private static final int CACHE_SIZE = 10 * 1024 * 1024;
-    private static final String API_URL = "https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas";
+    private static final String API_URL = "https://2q2woep105.execute-api.eu-west-1.amazonaws.com/";
 
     @Provides
     @Singleton
