@@ -38,7 +38,7 @@ public class OompaListFilter {
         List<Oompa> filteredList = new ArrayList<>();
         for(Oompa item : list) {
             if ((mProfession.isEmpty() || item.profession().equalsIgnoreCase(mProfession)) &&
-                (mGender.isEmpty() || item.profession().equalsIgnoreCase(mGender))) {
+                (mGender.isEmpty() || item.gender().equalsIgnoreCase(mGender))) {
                 filteredList.add(item);
             }
         }
