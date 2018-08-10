@@ -12,7 +12,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -45,6 +47,7 @@ abstract class NetworkModule {
     @Singleton
     static OkHttpClient provideOkHttpClient(Cache cache) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
         client.cache(cache);
         return client.build();
     }
@@ -59,4 +62,12 @@ abstract class NetworkModule {
                 .client(okHttpClient)
                 .build();
     }
+
+    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
+        Response originalResponse = chain.proceed(chain.request());
+        int maxAge = 60; // read from cache for 1 minute
+        return originalResponse.newBuilder()
+                .header("Cache-Control", "public, max-age=" + maxAge)
+                .build();
+    };
 }
