@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".oompaList.filter.OompaListFilterFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"/>
+
+    <Spinner
+        android:id="@+id/gender_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profession"/>
+
+    <Spinner
+        android:id="@+id/profession_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply"/>
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"/>
+
+    </LinearLayout>
+
+</LinearLayout>

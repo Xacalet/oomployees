@@ -1,4 +1,4 @@
-package com.alexbarcelo.oomployees;
+package com.alexbarcelo.oomployees.oompaList;
 
 import com.alexbarcelo.oomployees.data.model.PaginatedOompaList;
 import com.alexbarcelo.oomployees.data.source.OompaRepository;
