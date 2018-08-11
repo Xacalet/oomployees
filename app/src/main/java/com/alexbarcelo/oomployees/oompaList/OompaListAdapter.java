@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alexbarcelo.oomployees.GlideApp;
@@ -27,7 +28,8 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<Oompa> mOompas = new ArrayList<>();
     private Context mContext;
     private FooterItemType mFooterItemType = FooterItemType.NONE;
-    private View.OnClickListener mOnRetryButtonClickListener;
+    //    private View.OnClickListener mOnRetryButtonClickListener;
+    private OnItemClickListener mOnItemClickListener;
 
     public OompaListAdapter(Context context) {
         mContext = context;
@@ -60,6 +62,12 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             oompaViewHolder.setGender(oompa.gender());
 
+            oompaViewHolder.mCardView.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onOompaClick(oompa.id());
+                }
+            });
+
             Drawable drawable = DrawableCompat.wrap(oompaViewHolder.mGenderView.getBackground()).mutate();
             if (oompa.gender().equals("F")) {
                 DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.femaleColour));
@@ -73,7 +81,11 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         } else if (holder.getItemViewType() == FooterItemType.RETRY_BUTTON.ViewType) {
             RetryButtonHolder retryButtonHolder = (RetryButtonHolder) holder;
-            retryButtonHolder.setOnRetryButtonClickListener(mOnRetryButtonClickListener);
+            retryButtonHolder.mRetryButton.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onRetryButtonClick();
+                }
+            });
         }
     }
 
@@ -106,12 +118,22 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemChanged(getItemCount() - 1);
     }
 
-    public void setOnRetryButtonClickListener(View.OnClickListener listener) {
-        mOnRetryButtonClickListener = listener;
+    //    public void setOnRetryButtonClickListener(View.OnClickListener listener) {
+//        mOnRetryButtonClickListener = listener;
+//    }
+//
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 
     public boolean isRetryButtonActive() {
         return mFooterItemType.ViewType == FooterItemType.RETRY_BUTTON.ViewType;
+    }
+
+    public interface OnItemClickListener {
+        void onOompaClick(long id);
+
+        void onRetryButtonClick();
     }
 
     private enum FooterItemType {
@@ -128,6 +150,7 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class OompaViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.oompa_card) RelativeLayout mCardView;
         @BindView(R.id.oompa_card_image) ImageView mImageView;
         @BindView(R.id.oompa_card_full_name) TextView mFullNameView;
         @BindView(R.id.oompa_card_profession_and_age) TextView mProfessionAndAgeView;

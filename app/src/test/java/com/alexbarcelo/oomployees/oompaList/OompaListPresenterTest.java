@@ -2,8 +2,7 @@ package com.alexbarcelo.oomployees.oompaList;
 
 import com.alexbarcelo.oomployees.data.model.PaginatedOompaList;
 import com.alexbarcelo.oomployees.data.source.OompaRepository;
-import com.alexbarcelo.oomployees.oompaList.OompaListContract;
-import com.alexbarcelo.oomployees.oompaList.OompaListPresenter;
+import com.alexbarcelo.oomployees.oompaList.filter.OompaListFilter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class OompaListPresenterTest {
         // Inicializamos los objetos mockeados
         MockitoAnnotations.initMocks(this);
 
-        mOompaListPresenter = new OompaListPresenter(mOompaRepository, Schedulers.trampoline(), Schedulers.trampoline());
+        mOompaListPresenter = new OompaListPresenter(mOompaRepository, Schedulers.trampoline(), Schedulers.trampoline(), new OompaListFilter());
         mOompaListPresenter.takeView(mOompaListView);
 
         // Como no hay fragmeno detrás de la vista, indicamos que la vista ya está activa.
@@ -57,7 +56,7 @@ public class OompaListPresenterTest {
         when(mOompaRepository.getOompas(currentPage)).thenReturn(Single.just(paginatedList));
 
         // Llamamos al método de carga de ítems del presenter
-        mOompaListPresenter.loadMoreItems();
+        mOompaListPresenter.loadMoreItems(false);
 
         // Comprobamos las llamadas a los métodos de la vista
         InOrder inOrder = Mockito.inOrder(mOompaListView);
@@ -83,7 +82,7 @@ public class OompaListPresenterTest {
         when(mOompaRepository.getOompas(currentPage)).thenReturn(Single.<PaginatedOompaList>error(new Exception(error_message)));
 
         // Llamamos al método de carga de ítems del presenter
-        mOompaListPresenter.loadMoreItems();
+        mOompaListPresenter.loadMoreItems(false);
 
         // Comprobamos las llamadas a los métodos de la vista
         InOrder inOrder = Mockito.inOrder(mOompaListView);

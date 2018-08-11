@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import javax.annotation.Nullable;
+
 @AutoValue
 public abstract class Oompa {
 
@@ -32,6 +34,12 @@ public abstract class Oompa {
     public abstract int height();
 
     public abstract long id();
+
+    @Nullable
+    public abstract String quota();
+
+    @Nullable
+    public abstract String description();
 
     public static TypeAdapter<Oompa> typeAdapter(Gson gson) {
         return new AutoValue_Oompa.GsonTypeAdapter(gson);

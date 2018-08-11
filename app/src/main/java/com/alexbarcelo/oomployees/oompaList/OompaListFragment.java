@@ -18,7 +18,7 @@ import com.alexbarcelo.commons.di.ActivityScoped;
 import com.alexbarcelo.oomployees.R;
 import com.alexbarcelo.oomployees.data.model.Oompa;
 import com.alexbarcelo.oomployees.dialogs.ErrorDialogFragment;
-import com.alexbarcelo.oomployees.oompaList.filter.OompaListFilter;
+import com.alexbarcelo.oomployees.oompaDetail.OompaDetailActivity;
 import com.alexbarcelo.oomployees.oompaList.filter.OompaListFilterFragment;
 
 import java.util.List;
@@ -58,7 +58,17 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
         setHasOptionsMenu(true);
 
         mListAdapter = new OompaListAdapter(this.getActivity());
-        mListAdapter.setOnRetryButtonClickListener(view -> mPresenter.loadMoreItems(false));
+        mListAdapter.setOnItemClickListener(new OompaListAdapter.OnItemClickListener() {
+            @Override
+            public void onOompaClick(long id) {
+                openDetail(id);
+            }
+
+            @Override
+            public void onRetryButtonClick() {
+                mPresenter.loadMoreItems(false);
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mOompaListView.setLayoutManager(linearLayoutManager);
@@ -145,7 +155,9 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
 
     @Override
     public void openDetail(long id) {
-
+        Intent intent = new Intent(getActivity(), OompaDetailActivity.class);
+        intent.putExtra(OompaDetailActivity.EXTRA_OOMPA_ID, id);
+        startActivity(intent);
     }
 
     @Override

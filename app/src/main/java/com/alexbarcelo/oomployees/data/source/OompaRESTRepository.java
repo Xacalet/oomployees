@@ -1,5 +1,6 @@
 package com.alexbarcelo.oomployees.data.source;
 
+import com.alexbarcelo.oomployees.data.model.Oompa;
 import com.alexbarcelo.oomployees.data.model.PaginatedOompaList;
 
 import javax.inject.Inject;
@@ -19,5 +20,10 @@ public class OompaRESTRepository implements OompaRepository {
     @Override
     public Single<PaginatedOompaList> getOompas(int page) {
         return mRESTService.getOompas(page);
+    }
+
+    @Override
+    public Single<Oompa> getOompa(long id) {
+        return mRESTService.getOompa(id);
     }
 }
