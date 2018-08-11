@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,10 +27,10 @@ import dagger.android.support.DaggerAppCompatDialogFragment;
 public class OompaListFilterFragment extends DaggerAppCompatDialogFragment implements OompaListFilterContract.View {
 
     @BindView(R.id.gender_spinner)
-    Spinner mGenderSpinner;
+    AppCompatSpinner mGenderSpinner;
 
     @BindView(R.id.profession_spinner)
-    Spinner mProfessionSpinner;
+    AppCompatSpinner mProfessionSpinner;
 
     @BindView(R.id.apply_button)
     Button mApplyButton;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Oomployees</string>
+    <string name="app_name">oomployees</string>
     <string name="error_view_title">An error occurred…</string>
     <string name="error_view_text">An error occurred while fetching data with the following message:</string>
     <string name="retry">Retry</string>
@@ -13,6 +13,8 @@
     <string name="all_professions">All professions</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="full_name_sample">Fronkonstin, Frodorik</string>
+    <string name="profession_and_age_sample">Gemcutter, 21</string>
     <string-array name="genders">
         <item>All genders</item>
         <item>Female</item>

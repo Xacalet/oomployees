@@ -6,6 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:textColor">@color/colorRegularText</item>
+        <item name="actionMenuTextColor">@color/colorSecondary</item>
+        <item name="android:actionMenuTextColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="titleTextStyle">@style/MyTitleTextStyle</item>
+        <item name="actionMenuTextColor">@color/colorSecondary</item>
+        <item name="android:actionMenuTextColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="MyTitleTextStyle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/lobster</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
 </resources>

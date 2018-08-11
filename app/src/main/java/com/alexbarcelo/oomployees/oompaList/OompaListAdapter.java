@@ -1,14 +1,18 @@
 package com.alexbarcelo.oomployees.oompaList;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alexbarcelo.oomployees.GlideApp;
 import com.alexbarcelo.oomployees.R;
 import com.alexbarcelo.oomployees.data.model.Oompa;
 
@@ -49,7 +53,24 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (position < getItemCount() - 1) {
             Oompa oompa = mOompas.get(position);
             OompaViewHolder oompaViewHolder = (OompaViewHolder) holder;
-            oompaViewHolder.setName(oompa.firstName());
+
+            oompaViewHolder.setFullNameText(String.format("%s, %s", oompa.lastName(), oompa.firstName()));
+
+            oompaViewHolder.setProfessionAndAgeText(String.format("%s, %d", oompa.profession(), oompa.age()));
+
+            oompaViewHolder.setGender(oompa.gender());
+
+            Drawable drawable = DrawableCompat.wrap(oompaViewHolder.mGenderView.getBackground()).mutate();
+            if (oompa.gender().equals("F")) {
+                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.femaleColour));
+            } else {
+                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.maleColour));
+            }
+
+            GlideApp.with(mContext.getApplicationContext())
+                    .load(oompa.image())
+                    .into(oompaViewHolder.mImageView);
+
         } else if (holder.getItemViewType() == FooterItemType.RETRY_BUTTON.ViewType) {
             RetryButtonHolder retryButtonHolder = (RetryButtonHolder) holder;
             retryButtonHolder.setOnRetryButtonClickListener(mOnRetryButtonClickListener);
@@ -107,15 +128,26 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class OompaViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.oompa_name) TextView mNameView;
+        @BindView(R.id.oompa_card_image) ImageView mImageView;
+        @BindView(R.id.oompa_card_full_name) TextView mFullNameView;
+        @BindView(R.id.oompa_card_profession_and_age) TextView mProfessionAndAgeView;
+        @BindView(R.id.oompa_card_gender) TextView mGenderView;
 
         public OompaViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void setName(String text) {
-            mNameView.setText(text);
+        public void setFullNameText(String text) {
+            mFullNameView.setText(text);
+        }
+
+        public void setProfessionAndAgeText(String text) {
+            mProfessionAndAgeView.setText(text);
+        }
+
+        public void setGender(String text) {
+            mGenderView.setText(text);
         }
     }
 
