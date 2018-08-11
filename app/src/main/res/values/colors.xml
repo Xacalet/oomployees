@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorPrimary">#ffc31f</color>
+    <color name="colorPrimaryDark">#ff9e1f</color>
+    <!--<color name="colorSecondary">#3b0b68</color>-->
+    <color name="colorSecondary">#116007</color>
+    <color name="colorLightPurple">#f1e1ff</color>
+    <color name="colorPrimaryLight">#ffefc2</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="maleColour">#0077FF</color>
+    <color name="femaleColour">#FF0077</color>
+    <color name="colorRegularText">#444444</color>
 </resources>
