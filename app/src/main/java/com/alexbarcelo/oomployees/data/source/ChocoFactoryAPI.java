@@ -14,5 +14,5 @@ public interface ChocoFactoryAPI {
     Single<PaginatedOompaList> getOompas(@Query("page") int page);
 
     @GET("/napptilus/oompa-loompas/{id}")
-    Single<Oompa> getOompa(@Path("tv_id") long id);
+    Single<Oompa> getOompa(@Path("id") long id);
 }

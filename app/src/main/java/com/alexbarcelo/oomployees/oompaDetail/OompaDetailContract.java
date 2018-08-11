@@ -1,5 +1,7 @@
 package com.alexbarcelo.oomployees.oompaDetail;
 
+import android.graphics.drawable.Drawable;
+
 import com.alexbarcelo.commons.mvp.BasePresenter;
 import com.alexbarcelo.commons.mvp.BaseView;
 import com.alexbarcelo.oomployees.data.model.Oompa;
@@ -38,6 +40,10 @@ public interface OompaDetailContract {
         void setHeight(String text);
 
         void setDescription(String text);
+
+        void setImage(Drawable image);
+
+        void setVisible(boolean active);
     }
 
     interface Presenter extends BasePresenter<View> {
