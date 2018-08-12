@@ -3,7 +3,6 @@ package com.alexbarcelo.oomployees.oompaList;
 import com.alexbarcelo.commons.mvp.BasePresenter;
 import com.alexbarcelo.commons.mvp.BaseView;
 import com.alexbarcelo.oomployees.data.model.Oompa;
-import com.alexbarcelo.oomployees.oompaList.filter.OompaListFilter;
 
 import java.util.List;
 
@@ -13,15 +12,15 @@ import java.util.List;
 public interface OompaListContract {
 
     interface View extends BaseView<Presenter> {
-        void loadItems(List<Oompa> oompaList);
+        void showOompas(List<Oompa> oompaList);
 
-        void setLoadingIndicator(boolean active);
+        void showLoadingIndicator(boolean active);
 
-        void setRetryButton(boolean active);
+        void showRetryButton(boolean active);
 
         void showErrorMessage(String message);
 
-        void openDetail(long id);
+        void openOompaDetail(long oompaId);
 
         void openFilterDialog();
 
@@ -29,8 +28,8 @@ public interface OompaListContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-        void loadMoreItems(boolean reload);
+        void loadOompas(boolean forceRetry);
 
-        void applyFilter(OompaListFilter filter);
+        void applyFilter();
     }
 }

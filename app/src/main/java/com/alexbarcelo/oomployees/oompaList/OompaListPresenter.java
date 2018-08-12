@@ -20,21 +20,31 @@ import static com.alexbarcelo.oomployees.di.RxModule.BACKGROUND_SCHEDULER_NAME;
 import static com.alexbarcelo.oomployees.di.RxModule.MAIN_SCHEDULER_NAME;
 
 /**
- * Interficies que definen el contrato para las capas de vista y presentador para la lista de Oompa-Loompas
+ * Presenter para la vista que muestra una lista de oompa-loompas con filtro
  */
 public class OompaListPresenter implements OompaListContract.Presenter {
 
+    // Dependencias
     private OompaListContract.View mView;
     private OompaRepository mRepository;
     private Scheduler mMainScheduler;
     private Scheduler mBackgroundScheduler;
 
+    // Control de paginación
     private int mCurrentPage = 0;
     private int mPageCount = Integer.MAX_VALUE;
+
+    // Flags
     private boolean mIsLoading = false;
-    private List<Oompa> mItems = new ArrayList<>();
-    private DisposableSingleObserver mCurrentRequest;
+    private boolean mIsOnError = false;
+
+    // Guardamos el observer de la petición en una variable miembro por si debemos cancelar
+    // la suscripción en algun momento.
+    private DisposableSingleObserver<PaginatedOompaList> mCurrentRequest;
+
+
     private OompaListFilter mListFilter;
+    private List<Oompa> mOompaList = new ArrayList<>();
 
     @Inject
     OompaListPresenter(@NonNull OompaRepository repository,
@@ -47,42 +57,56 @@ public class OompaListPresenter implements OompaListContract.Presenter {
         this.mListFilter = listFilter;
     }
 
+    /**
+     * Busca ítems en el repositorio y actualiza la vista
+     * @param forceRetry Fuerza la carga de ítems aun en caso de error en la última solicitud
+     */
     @Override
-    public void loadMoreItems(boolean reload) {
-
-        if (reload) {
-            if (mCurrentRequest != null)
-                mCurrentRequest.dispose();
-            mIsLoading = false;
-            mCurrentPage = 0;
-            mItems.clear();
-            mView.loadItems(new ArrayList<>());
+    public void loadOompas(boolean forceRetry) {
+        // mIsOnError fuerza a la vista a pulsar retry para recargar los datos. En caso de error,
+        // el evento de scroll de la lista no hará nada.
+        if (forceRetry) {
+            mIsOnError = false;
+            if (mView != null && mView.isActive()){
+                mView.showRetryButton(false);
+            }
         }
 
-        if (mCurrentPage >= mPageCount || mIsLoading) {
+        if (mCurrentPage >= mPageCount || mIsLoading || mIsOnError) {
             return;
         }
 
-        mView.setLoadingIndicator(true);
+        if (mView != null && mView.isActive()) {
+            mView.showLoadingIndicator(true);
+        }
         mIsLoading = true;
 
         mCurrentRequest = new DisposableSingleObserver<PaginatedOompaList>(){
 
             @Override
             public void onSuccess(PaginatedOompaList paginatedOompaList) {
+                // Aumentamos en 1 la última página consultada, añadimos los resultados a la lista
+                // y actualizamos la vista
                 mCurrentPage = paginatedOompaList.current();
                 mPageCount = paginatedOompaList.total();
-                mItems.addAll(mListFilter.filter(paginatedOompaList.results()));
-                mView.loadItems(mItems);
-                mView.setLoadingIndicator(false);
+                mOompaList.addAll(mListFilter.filter(paginatedOompaList.results()));
+                if (mView != null && mView.isActive()){
+                    mView.showOompas(mOompaList);
+                    mView.showLoadingIndicator(false);
+                }
                 mIsLoading = false;
             }
 
             @Override
             public void onError(Throwable e) {
-                mView.setLoadingIndicator(false);
-                mView.showErrorMessage(e.getMessage());
-                mView.setRetryButton(true);
+                // Activamos el flag de error en el presenter y mostramos mensaje de error
+                // en la vista
+                mIsOnError = true;
+                if (mView != null && mView.isActive()){
+                    mView.showLoadingIndicator(false);
+                    mView.showErrorMessage(e.getMessage());
+                    mView.showRetryButton(true);
+                }
                 mIsLoading = false;
             }
         };
@@ -93,18 +117,48 @@ public class OompaListPresenter implements OompaListContract.Presenter {
                 .subscribe(mCurrentRequest);
     }
 
+    /**
+     * Resetemos los flags de paginación para volver a obtener la primera página, con el filtro
+     * ya modificado
+     */
     @Override
-    public void applyFilter(OompaListFilter filter) {
-        mListFilter = filter;
+    public void applyFilter() {
+        resetPageLoad();
+        loadOompas(true);
     }
 
+    /**
+     * Asignamos la vista al presenter
+     * @param view the view associated with this presenter
+     */
     @Override
     public void takeView(OompaListContract.View view) {
         mView = view;
     }
 
+    /**
+     * Desvinculamos la vista del presenter
+     */
     @Override
     public void dropView() {
         mView = null;
+        if (mCurrentRequest != null)
+            mCurrentRequest.dispose();
+    }
+
+    /**
+     * Cancelamos cualquier solicitud en proceso, reseteamos los contadores de paginación y
+     * vaciamos la lista de ítems (también en la lista) para poder iniciar otra búsqueda desde 0.
+     */
+    private void resetPageLoad() {
+        if (mCurrentRequest != null)
+            mCurrentRequest.dispose();
+        mCurrentPage = 0;
+        mPageCount = Integer.MAX_VALUE;
+        mOompaList.clear();
+        if (mView != null && mView.isActive()){
+            mView.showOompas(new ArrayList<>());
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.alexbarcelo.oomployees.di;
 
+import com.alexbarcelo.oomployees.data.source.OompaMockRepository;
 import com.alexbarcelo.oomployees.data.source.OompaRESTRepository;
 import com.alexbarcelo.oomployees.data.source.OompaRepository;
 
@@ -9,8 +10,8 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
-public abstract class RepositoryModule {
+abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract OompaRepository provideOompaRepository(OompaRESTRepository repo);
+    abstract OompaRepository provideOompaRepository(OompaMockRepository repo);
 }

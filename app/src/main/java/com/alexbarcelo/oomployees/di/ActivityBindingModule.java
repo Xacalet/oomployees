@@ -1,6 +1,8 @@
 package com.alexbarcelo.oomployees.di;
 
 import com.alexbarcelo.commons.di.ActivityScoped;
+import com.alexbarcelo.oomployees.oompaDetail.OompaDetailActivity;
+import com.alexbarcelo.oomployees.oompaDetail.OompaDetailModule;
 import com.alexbarcelo.oomployees.oompaList.OompaListActivity;
 import com.alexbarcelo.oomployees.oompaList.OompaListModule;
 
@@ -18,4 +20,8 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = OompaListModule.class)
     abstract OompaListActivity oompaListActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = OompaDetailModule.class)
+    abstract OompaDetailActivity oompaDetailActivity();
 }

@@ -19,4 +19,8 @@ public abstract class PaginatedOompaList {
     public static TypeAdapter<PaginatedOompaList> typeAdapter(Gson gson) {
         return new AutoValue_PaginatedOompaList.GsonTypeAdapter(gson);
     }
+
+    public static PaginatedOompaList create (int current, int total, List<Oompa> results) {
+        return new AutoValue_PaginatedOompaList(current, total, results);
+    }
 }
