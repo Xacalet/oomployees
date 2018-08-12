@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">Oomployees</string>
+    <string name="app_name">oomployees</string>
+    <string name="error_view_title">An error occurred…</string>
+    <string name="error_view_text">An error occurred while fetching data with the following message:</string>
+    <string name="retry">Retry</string>
+    <string name="no_results_found">No results found</string>
+    <string name="filter">Filter</string>
+    <string name="gender">Gender</string>
+    <string name="female_abr">F</string>
+    <string name="male_abr">M</string>
+    <string name="all">ALL</string>
+    <string name="profession">Profession</string>
+    <string name="all_professions">All professions</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="age">Age</string>
+    <string name="country">Country</string>
+    <string name="height">Height</string>
+    <string name="favorite_color">Favorite color</string>
+    <string name="favorite_food">Favorite food</string>
+    <string name="full_name_sample">Fronkonstin, Frodorik</string>
+    <string name="profession_and_age_sample">Gemcutter, 21</string>
+    <string name="email_sample">mkaradzas1@visualengin.com</string>
+    <string name="profession_sample">Gemcutter</string>
+    <string name="age_sample">21 years old</string>
+    <string name="country_sample">Loompalandia</string>
+    <string name="height_sample">99 cm</string>
+    <string name="favorite_color_sample">Green</string>
+    <string name="favorite_food_sample">Chocolate</string>
+    <string name="description">Description</string>
+    <string name="description_sample">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
+    <string-array name="genders">
+        <item>All genders</item>
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
+    <string-array name="professions">
+        <item>All professions</item>
+        <item>Gemcutter</item>
+        <item>Medic</item>
+        <item>Metalworker</item>
+        <item>Developer</item>
+        <item>Brewer</item>
+    </string-array>
 </resources>

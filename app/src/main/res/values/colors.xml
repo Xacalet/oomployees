@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorMale">#0077FF</color>
+    <color name="colorFemale">#FF0077</color>
+    <!--ClassicOompaTheme colors-->
+    <color name="lime">#AFB42B</color>
+    <color name="darkLime">#827717</color>
+    <color name="extraLightOrange">#FFE0B2</color>
+    <color name="darkGrey">#2B2B2B</color>
 </resources>
