@@ -84,9 +84,9 @@ public class OompaListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             Drawable drawable = DrawableCompat.wrap(oompaViewHolder.genderView.getBackground()).mutate();
             if (oompa.gender().equals("F")) {
-                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.femaleColour));
+                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.colorFemale));
             } else {
-                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.maleColour));
+                DrawableCompat.setTint(drawable, mContext.getResources().getColor(R.color.colorMale));
             }
 
             GlideApp.with(mContext.getApplicationContext())
