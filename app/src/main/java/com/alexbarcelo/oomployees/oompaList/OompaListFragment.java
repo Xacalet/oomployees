@@ -61,12 +61,12 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
         mListAdapter.setOnItemClickListener(new OompaListAdapter.OnItemClickListener() {
             @Override
             public void onOompaClick(long id) {
-                openDetail(id);
+                openOompaDetail(id);
             }
 
             @Override
             public void onRetryButtonClick() {
-                mPresenter.loadMoreItems(false);
+                mPresenter.loadOompas(true);
             }
         });
 
@@ -89,7 +89,7 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
                      * ya que en algunos casos, durante la ejecución del callback de scroll,
                      * la recycler view puede no aceptar cambios en los datos.
                      */
-                    recyclerView.post(() -> mPresenter.loadMoreItems(false));
+                    recyclerView.post(() -> mPresenter.loadOompas(false));
                 }
             }
         });
@@ -113,7 +113,7 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_oompa_list, menu);
+        Objects.requireNonNull(getActivity()).getMenuInflater().inflate(R.menu.menu_oompa_list, menu);
     }
 
     @Override
@@ -125,46 +125,71 @@ public class OompaListFragment extends DaggerFragment implements OompaListContra
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * En caso que el usuario haya pulsado "apply" en el filtro, la vista informa al presenter
+     * de que debe actualizar los datos.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FILTER_DIALOG_FRAGMENT && resultCode == Activity.RESULT_OK) {
-            mPresenter.loadMoreItems(true);
+            mPresenter.applyFilter();
         }
     }
 
+    /**
+     * Carga elementos en la lista
+     */
     @Override
-    public void loadItems(List<Oompa> oompaList) {
+    public void showOompas(List<Oompa> oompaList) {
         mListAdapter.setItems(oompaList);
     }
 
+    /**
+     * Muestra o oculta un spinner al final de la lista
+     * @param active True para mostrar el indicador
+     */
     @Override
-    public void setLoadingIndicator(boolean active) {
+    public void showLoadingIndicator(boolean active) {
         mListAdapter.showLoadingIndicator(active);
     }
 
+    /**
+     * Muestra o oculta el botón de retry al final de la lista
+     * @param active True para mostrar el botón
+     */
     @Override
-    public void setRetryButton(boolean active) {
+    public void showRetryButton(boolean active) {
         mListAdapter.showRetryButton(active);
     }
 
+    /**
+     * Muestra un diálogo con un mensaje de error
+     * @param message Texto del mensaje
+     */
     @Override
     public void showErrorMessage(String message) {
         ErrorDialogFragment dialogFragment = ErrorDialogFragment.newInstance(message);
         dialogFragment.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
     }
 
+    /**
+     * Abre una pantalla con el detalle del oompa-loompa seleccionado
+     */
     @Override
-    public void openDetail(long id) {
+    public void openOompaDetail(long oompaId) {
         Intent intent = new Intent(getActivity(), OompaDetailActivity.class);
-        intent.putExtra(OompaDetailActivity.EXTRA_OOMPA_ID, id);
+        intent.putExtra(OompaDetailActivity.EXTRA_OOMPA_ID, oompaId);
         startActivity(intent);
     }
 
+    /**
+     * Abre el diálogo de filtro de la lista de oompa-loompas
+      */
     @Override
     public void openFilterDialog() {
         OompaListFilterFragment dialogFragment = new OompaListFilterFragment();
         dialogFragment.setTargetFragment(OompaListFragment.this, FILTER_DIALOG_FRAGMENT);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+        dialogFragment.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
     }
 
     @Override

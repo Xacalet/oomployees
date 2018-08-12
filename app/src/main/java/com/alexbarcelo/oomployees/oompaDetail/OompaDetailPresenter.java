@@ -1,5 +1,6 @@
 package com.alexbarcelo.oomployees.oompaDetail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -46,7 +47,7 @@ public class OompaDetailPresenter implements OompaDetailContract.Presenter {
     public void loadDetail(long id) {
         mView.setLoadingIndicator(true);
 
-        DisposableSingleObserver mCurrentRequest = new DisposableSingleObserver<Oompa>() {
+        DisposableSingleObserver<Oompa> mCurrentRequest = new DisposableSingleObserver<Oompa>() {
 
             @Override
             public void onSuccess(Oompa oompa) {
@@ -78,6 +79,7 @@ public class OompaDetailPresenter implements OompaDetailContract.Presenter {
         mView = null;
     }
 
+    @SuppressLint("DefaultLocale")
     private void showDetail(Oompa oompa) {
         mView.setFullName(String.format("%s, %s", oompa.lastName(), oompa.firstName()));
         GlideApp.with(mContext.getApplicationContext())

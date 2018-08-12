@@ -12,7 +12,6 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import com.alexbarcelo.oomployees.R;
 

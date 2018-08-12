@@ -21,4 +21,8 @@ public abstract class Favorite {
     public static TypeAdapter<Favorite> typeAdapter(Gson gson) {
         return new AutoValue_Favorite.GsonTypeAdapter(gson);
     }
+
+    public static Favorite create(String color, String food, String randomString, String song) {
+        return new AutoValue_Favorite(color, food, randomString, song);
+    }
 }
