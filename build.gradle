@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -19,21 +19,23 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 }
 
 ext {
-    compileSdkVersion = 27
+    compileSdkVersion = 28
     minSdkVersion = 21
-    targetSdkVersion = 27
-    supportLibraryVersion = '27.1.1'
-    daggerVersion = '2.14.1'
+    targetSdkVersion = 28
+    //supportLibraryVersion = '27.1.1'
+    androidXVersion = '1.0.0'
+    daggerVersion = '2.17'
     retrofitVersion = '2.3.0'
-    glideVersion = '4.6.1'
+    glideVersion = '4.8.0'
     autoValueVersion = '1.5.1'
     gsonVersion = '2.8.2'
     autoValueGsonVersion = '0.7.0'
-    butterKnifeVersion = '8.8.1'
+    butterKnifeVersion = '9.0.0-SNAPSHOT'
     rxJavaVersion = '2.1.13'
     rxAndroidVersion = '2.0.2'
     mockitoVersion = '1.10.19'

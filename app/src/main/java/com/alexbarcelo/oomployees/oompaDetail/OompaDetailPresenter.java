@@ -3,11 +3,10 @@ package com.alexbarcelo.oomployees.oompaDetail;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.alexbarcelo.oomployees.GlideApp;
-import com.alexbarcelo.oomployees.R;
 import com.alexbarcelo.oomployees.data.model.Oompa;
 import com.alexbarcelo.oomployees.data.source.OompaRepository;
 import com.bumptech.glide.request.target.SimpleTarget;

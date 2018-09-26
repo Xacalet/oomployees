@@ -1,6 +1,6 @@
 package com.alexbarcelo.oomployees.oompaList;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.alexbarcelo.oomployees.data.model.Oompa;
 import com.alexbarcelo.oomployees.data.model.PaginatedOompaList;
